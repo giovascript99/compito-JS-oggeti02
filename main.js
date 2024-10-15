@@ -1,62 +1,76 @@
+let name;
+let number;
+
+let check = Number(prompt('premi 1 se vuoi eliminare o aggiungere un contatto, \npremi 2 se vuoi modificae un contatto'));
+
 let agenda = {
-    'contatti': [
-        {'nome': 'Nicola', 'telefono': '3331111111'},
-        {'nome': 'Lorenzo', 'telefono': '3332222222'},
-        {'nome': 'Paola', 'telefono': '3333333333'},
-        {'nome': 'Jenny', 'telefono': '3334444444'}
+    'contacts': [
+        {'name': 'Nicola', 'number': '3331111111'},
+        {'name': 'Lorenzo', 'number': '3332222222'},
+        {'name': 'Paola', 'number': '3333333333'},
+        {'name': 'Jenny', 'number': '3334444444'}
     ],
     
-    mostraTuttiIContatti() {
-        console.log('Tutti i contatti:');
-        this.contatti.forEach((contatto) => {
-            console.log(`Nome: ${contatto.nome}, Telefono: ${contatto.telefono}`);
+    showAllContacts: function() {
+        console.log('- TUTTI I CONTATTI:');
+        this.contacts.forEach(contact => {
+            console.log(`${contact.name}: ${contact.number}`);
         });
     },
     
-    mostraContatto(indice) {
-        console.log('Un contatto:');
-        let contatto = this.contatti[indice];
-        if (contatto) {
-            console.log(`Nome: ${contatto.nome}, Telefono: ${contatto.telefono}`);
+    showContact: function(nome) {
+        let contact = this.contacts.find(contact => contact.name == nome);
+        if (contact) {
+            console.log(`CONTATTO TROVATO - ${contact.name}: ${contact.number}`);
         } else {
-            console.log('Contatto non trovato.');
+            console.log('CONTATTO NON TROVATO');
         }
     },
     
-    eliminaContatto(indice) {
-        console.log('Elimina contatto');
-        this.contatti.splice(indice, 1);
-        console.log('Contatto eliminato.');
+    removeAddContacts: function(nome, numero){
+        let contact = this.contacts.find(contact => contact.name == nome);
+        let index = this.contacts.indexOf(contact);
+        if(contact){
+            this.contacts.splice(index, 1)
+            console.log('CONTATTO ELIMINATO');
+        }else{
+            this.contacts.push({name: nome, number: numero})
+            console.log('CONTATTO AGGIUNTO');
+        }
     },
     
-    aggiungiContatto(nome, telefono) {
-        console.log('Aggiungi contatto');
-        let nuovoContatto = { nome, telefono };
-        this.contatti.push(nuovoContatto);
-        console.log('Contatto aggiunto.');
-    },
-    
-    modificaContatto(indice, nuovoNome, nuovoTelefono) {
-        const contatto = this.contatti[indice];
-        if (contatto) {
-            contatto.nome = nuovoNome;
-            contatto.telefono = nuovoTelefono;
-            console.log('Contatto modificato.');
-        } else {
-            console.log('Contatto non trovato.');
+    editContact: function(nome, newNumber){
+        let contact = this.contacts.find(contact => contact.name == nome)
+        if(contact){
+            console.log('CONTATTO MODIFICATO');
+            contact.number = newNumber
+            
+        }else{
+            console.log('CONTATTO NON TROVATO');
+            
         }
     }
 }
 
-agenda.mostraTuttiIContatti();
+// agenda.showAllContacts();
+// agenda.showContact('Paola');
+// agenda.removeAddContacts(name, number);
+// agenda.showAllContacts();
+// agenda.editContact('Jenny', 3335555555)
+// agenda.showAllContacts();
 
-agenda.mostraContatto(1);
 
-agenda.eliminaContatto(2);
-agenda.mostraTuttiIContatti();
+switch (check) {
+    case 1:
+    name = prompt('inserisci il nome del contatto')
+    number = prompt('inserisci il numero del contatto')
+    agenda.removeAddContacts(name, number)
+    break;
 
-agenda.aggiungiContatto('Luca', '3335555555');
-agenda.mostraTuttiIContatti();
+    case 2:
+    name = prompt('inserisci il nome del contatto')
+    number = prompt('inserisci il nuovo numero del contatto')
+    agenda.editContact(name, number)
+}
 
-agenda.modificaContatto(0, 'Marco', '3330000000');
-agenda.mostraTuttiIContatti();
+agenda.showAllContacts()
